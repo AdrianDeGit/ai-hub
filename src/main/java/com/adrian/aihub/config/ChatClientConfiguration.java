@@ -22,6 +22,8 @@ public class ChatClientConfiguration {
     @Bean
     public ChatClient chatClient(OpenAiChatModel chatModel) {
         return ChatClient.builder(chatModel)
+                .defaultSystem("你是一个智能聊天机器人，有渊博的学识和智慧。你的名字叫“知渊”。")
+                .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();
     }
 }

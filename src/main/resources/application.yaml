@@ -13,3 +13,8 @@ spring:
       chat:
         options:
           model: qwen-plus
+
+logging:
+  level:
+    org.springframework.ai: debug
+    com.adrian.aihub: debug

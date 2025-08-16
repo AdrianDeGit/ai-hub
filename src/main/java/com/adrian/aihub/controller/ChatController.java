@@ -22,9 +22,10 @@ public class ChatController {
     private final ChatClient chatClient;
 
     @RequestMapping(value = "/chat", produces = "text/html;charset=UTF-8")
-    public Flux<String> chat(@RequestParam(defaultValue = "讲个笑话") String prompt) {
+    public Flux<String> chat(@RequestParam(defaultValue = "请做一下自我介绍") String context) {
         return chatClient
-                .prompt(prompt)
+                .prompt()
+                .user(context)
                 .stream()
                 .content();
     }
