@@ -69,22 +69,30 @@ public class CustomerServiceTools {
 
     @Tool(description = "生成咨询预约单,并返回生成的预约单号")
     public String generateConsultation(
+            @ToolParam(required = true, description = "咨询产品ID") Integer productId,
             @ToolParam(required = true, description = "咨询产品名称") String productName,
             @ToolParam(required = true, description = "客户姓名") String customerName,
             @ToolParam(required = true, description = "联系电话") String contactPhone,
             @ToolParam(required = true, description = "联系邮箱") String contactEmail,
             @ToolParam(required = true, description = "咨询类型") String consultationType,
+            @ToolParam(required = true, description = "分支机构ID") Integer branchId,
             @ToolParam(required = true, description = "分支机构名称") String branchName,
             @ToolParam(required = true, description = "咨询时间") String preferredTime,
             @ToolParam(required = false, description = "备注") String remark) {
         Consultation consultation = new Consultation();
+        consultation.setProductId(productId);
         consultation.setProductName(productName);
         consultation.setCustomerName(customerName);
         consultation.setContactPhone(contactPhone);
         consultation.setContactEmail(contactEmail);
         consultation.setConsultationType(consultationType);
+        consultation.setBranchId(branchId);
         consultation.setBranchName(branchName);
-        consultation.setPreferredTime(preferredTime != null ? LocalDateTime.parse(preferredTime) : null);
+        consultation.setPreferredTime(
+                (preferredTime != null && !preferredTime.trim().isEmpty())
+                        ? LocalDateTime.parse(preferredTime)
+                        : LocalDateTime.now()
+        );
         consultation.setRemark(remark);
         consultation.setStatus(0);
         consultationService.save(consultation);
