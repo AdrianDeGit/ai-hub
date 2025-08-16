@@ -1,0 +1,73 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Frontend (ai-hub-ui) ###
+# Logs
+ai-hub-ui/logs
+ai-hub-ui/*.log
+ai-hub-ui/npm-debug.log*
+ai-hub-ui/yarn-debug.log*
+ai-hub-ui/yarn-error.log*
+ai-hub-ui/pnpm-debug.log*
+ai-hub-ui/lerna-debug.log*
+
+# Dependencies
+ai-hub-ui/node_modules
+ai-hub-ui/.DS_Store
+
+# Build outputs
+ai-hub-ui/dist
+ai-hub-ui/dist-ssr
+ai-hub-ui/coverage
+ai-hub-ui/*.local
+
+# Testing
+ai-hub-ui/cypress/videos/
+ai-hub-ui/cypress/screenshots/
+
+# Editor directories and files
+ai-hub-ui/.vscode/*
+!ai-hub-ui/.vscode/extensions.json
+ai-hub-ui/.idea
+ai-hub-ui/*.suo
+ai-hub-ui/*.ntvs*
+ai-hub-ui/*.njsproj
+ai-hub-ui/*.sln
+ai-hub-ui/*.sw?
+
+# TypeScript
+ai-hub-ui/*.tsbuildinfo
+
+# Vite
+ai-hub-ui/.vite/
