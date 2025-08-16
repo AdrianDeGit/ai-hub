@@ -25,14 +25,14 @@ public class CustomerServiceController {
     private final IChatSessionService inMemoryChatSessionService;
 
     @RequestMapping(value = "/service", produces = "text/html;charset=utf-8")
-    public String service(String prompt, String chatId) {
+    public Flux<String> service(String prompt, String chatId) {
         // 1.保存会话id
         inMemoryChatSessionService.addChatSessionId("service", chatId);
         // 2.请求模型
         return serviceChatClient.prompt()
                 .user(prompt)
                 .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
-                .call()
+                .stream()
                 .content();
     }
 }
