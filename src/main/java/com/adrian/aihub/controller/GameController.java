@@ -1,0 +1,34 @@
+package com.adrian.aihub.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
+
+/**
+ * @Project: ai-hub
+ * @Package: com.adrian.aihub.controller
+ * @Date: 2025/8/16 15:35
+ * @Author: Adrian
+ * @Version: V1.0
+ * @Description:
+ */
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/ai")
+public class GameController {
+
+    private final ChatClient gameChatClient;
+
+    @RequestMapping(value = "/game", produces = "text/html;charset=utf-8")
+    public Flux<String> chat(String prompt, String chatId) {
+        return gameChatClient.prompt()
+                .user(prompt)
+                .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
+                .stream()
+                .content();
+    }
+}
