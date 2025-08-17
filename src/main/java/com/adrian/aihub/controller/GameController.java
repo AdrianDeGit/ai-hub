@@ -1,12 +1,10 @@
 package com.adrian.aihub.controller;
 
+import com.adrian.aihub.service.IChatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 
 /**
  * @Project: ai-hub
@@ -21,14 +19,10 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 @RequestMapping("/ai")
 public class GameController {
 
-    private final ChatClient gameChatClient;
+    private final IChatService chatService;
 
     @RequestMapping(value = "/game", produces = "text/html;charset=utf-8")
     public Flux<String> chat(String prompt, String chatId) {
-        return gameChatClient.prompt()
-                .user(prompt)
-                .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
-                .stream()
-                .content();
+        return chatService.gameChat(prompt, chatId);
     }
 }
