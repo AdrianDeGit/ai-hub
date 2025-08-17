@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
+
+import java.util.List;
 
 /**
  * @Project: ai-hub
@@ -25,7 +28,13 @@ public class ChatController {
     private final IChatService chatService;
 
     @RequestMapping(value = "/chat", produces = "text/html;charset=UTF-8")
-    public Flux<String> chat(@RequestParam(defaultValue = "你好") String prompt, String chatId) {
-        return chatService.chat(prompt, chatId);
+    public Flux<String> chat(
+            @RequestParam("prompt") String prompt,
+            @RequestParam("chatId") String chatId,
+            @RequestParam(value = "files", required = false) List<MultipartFile> files
+    ) {
+        return chatService.Chat(prompt, chatId, files);
     }
+
+
 }
