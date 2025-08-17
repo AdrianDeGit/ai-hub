@@ -2,9 +2,17 @@ package com.adrian.aihub;
 
 import com.adrian.aihub.utils.VectorDistanceUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.document.Document;
 import org.springframework.ai.openai.OpenAiEmbeddingModel;
+import org.springframework.ai.reader.ExtractedTextFormatter;
+import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
+import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +22,9 @@ class AIHubApplicationTests {
 
     @Autowired
     private OpenAiEmbeddingModel embeddingModel;
+
+    @Autowired
+    private VectorStore vectorStore;
 
     @Test
     void contextLoads() {
@@ -26,7 +37,7 @@ class AIHubApplicationTests {
         String query = "global conflicts";
 
         // 1.2.用来做比较的文本
-        String[] texts = new String[]{
+        String[] texts = new String[] {
                 "哈马斯称加沙下阶段停火谈判仍在进行 以方尚未做出承诺",
                 "土耳其、芬兰、瑞典与北约代表将继续就瑞典\"入约\"问题进行谈判",
                 "日本航空基地水井中检测出有机氟化物超标",
@@ -68,6 +79,39 @@ class AIHubApplicationTests {
         for (int i = 0; i < texts.length; i++) {
             double similarity = 1.0 - VectorDistanceUtils.cosineDistance(queryVector, textVectors.get(i));
             System.out.println("文本【" + texts[i] + "】与用户输入的余弦相似度为：" + similarity);
+        }
+    }
+
+    @Test
+    public void testVectorStore() {
+        Resource resource = new FileSystemResource("src/main/resources/static/面试宝典.pdf");
+        // 1.创建PDF的读取器
+        PagePdfDocumentReader reader = new PagePdfDocumentReader(
+                resource, // 文件源
+                PdfDocumentReaderConfig.builder()
+                        .withPageExtractedTextFormatter(ExtractedTextFormatter.defaults())
+                        .withPagesPerDocument(1) // 每1页PDF作为一个Document
+                        .build());
+        // 2.读取PDF文档，拆分为Document
+        List<Document> documents = reader.read();
+        // 3.写入向量库
+        vectorStore.add(documents);
+        // 4.搜索
+        SearchRequest request = SearchRequest.builder()
+                .query("什么是分布式事务啊")
+                .topK(1)
+                .similarityThreshold(0.6)
+                .filterExpression("file_name == '面试宝典.pdf'")
+                .build();
+        List<Document> docs = vectorStore.similaritySearch(request);
+        if (docs == null) {
+            System.out.println("没有搜索到任何内容");
+            return;
+        }
+        for (Document doc : docs) {
+            System.out.println(doc.getId());
+            System.out.println(doc.getScore());
+            System.out.println(doc.getText());
         }
     }
 }
