@@ -22,6 +22,7 @@ public class ChatServiceImpl implements IChatService {
     private final ChatClient gameChatClient;
     private final ChatClient serviceChatClient;
     private final IChatSessionService chatSessionService;
+    private final ChatClient pdfChatClient;
 
     @Override
     public Flux<String> chat(String prompt, String chatId) {
@@ -56,6 +57,20 @@ public class ChatServiceImpl implements IChatService {
         log.info("客服聊天 - prompt: {}, chatId: {}", prompt, chatId);
         
         return serviceChatClient.prompt()
+                .user(prompt)
+                .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
+                .stream()
+                .content();
+    }
+
+    @Override
+    public Flux<String> pdfChat(String prompt, String chatId) {
+        // 保存会话id
+        chatSessionService.addChatSessionId("pdf", chatId);
+
+        log.info("PDF聊天 - prompt: {}, chatId: {}", prompt, chatId);
+
+        return pdfChatClient.prompt()
                 .user(prompt)
                 .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
                 .stream()
