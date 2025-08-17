@@ -43,14 +43,22 @@ ai-hub-ui/pnpm-debug.log*
 ai-hub-ui/lerna-debug.log*
 
 # Dependencies
-ai-hub-ui/node_modules
+ai-hub-ui/node_modules/
 ai-hub-ui/.DS_Store
+ai-hub-ui/.npm
+ai-hub-ui/.yarn/cache
+ai-hub-ui/.yarn/unplugged
+ai-hub-ui/.yarn/build-state.yml
+ai-hub-ui/.yarn/install-state.gz
+ai-hub-ui/pnp.*
 
 # Build outputs
-ai-hub-ui/dist
-ai-hub-ui/dist-ssr
-ai-hub-ui/coverage
+ai-hub-ui/dist/
+ai-hub-ui/dist-ssr/
+ai-hub-ui/coverage/
 ai-hub-ui/*.local
+ai-hub-ui/build/
+ai-hub-ui/out/
 
 # Testing
 ai-hub-ui/cypress/videos/
@@ -59,7 +67,7 @@ ai-hub-ui/cypress/screenshots/
 # Editor directories and files
 ai-hub-ui/.vscode/*
 !ai-hub-ui/.vscode/extensions.json
-ai-hub-ui/.idea
+ai-hub-ui/.idea/
 ai-hub-ui/*.suo
 ai-hub-ui/*.ntvs*
 ai-hub-ui/*.njsproj
@@ -71,3 +79,50 @@ ai-hub-ui/*.tsbuildinfo
 
 # Vite
 ai-hub-ui/.vite/
+
+# Cache directories
+ai-hub-ui/.cache/
+ai-hub-ui/.parcel-cache/
+ai-hub-ui/.fusebox/
+
+# Environment files
+ai-hub-ui/.env
+ai-hub-ui/.env.local
+ai-hub-ui/.env.development.local
+ai-hub-ui/.env.test.local
+ai-hub-ui/.env.production.local
+
+# Package manager files (keep package.json but ignore lock files)
+ai-hub-ui/package-lock.json
+ai-hub-ui/yarn.lock
+ai-hub-ui/pnpm-lock.yaml
+
+# Temporary files
+ai-hub-ui/*.tmp
+ai-hub-ui/*.temp
+
+# OS generated files
+ai-hub-ui/Thumbs.db
+ai-hub-ui/ehthumbs.db
+ai-hub-ui/Desktop.ini
+
+# Additional frontend ignores
+ai-hub-ui/.eslintcache
+ai-hub-ui/.stylelintcache
+ai-hub-ui/.rpt2_cache/
+ai-hub-ui/.rts2_cache_cjs/
+ai-hub-ui/.rts2_cache_es/
+ai-hub-ui/.rts2_cache_umd/
+ai-hub-ui/.node_repl_history
+ai-hub-ui/*.tgz
+ai-hub-ui/.yarn-integrity
+
+# Keep important frontend files
+!ai-hub-ui/package.json
+!ai-hub-ui/vite.config.*
+!ai-hub-ui/tsconfig*.json
+!ai-hub-ui/index.html
+!ai-hub-ui/env.d.ts
+!ai-hub-ui/README.md
+!ai-hub-ui/src/
+!ai-hub-ui/public/
